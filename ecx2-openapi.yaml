@@ -1046,6 +1046,8 @@ components:
               submission_count: 
                 type: integer
   
+      PhishFields:
+        description: Fields that can be selected on GET operations
   
       SearchObject:
         type: object
