@@ -1,7 +1,7 @@
 openapi: "3.0.3"
 info:
   title: eCXv3 - API v1.0
-  version: "1.0.1"
+  version: "1.0.2"
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
     API software issues can be raised on the issues page at https://github.com/APWG/ecx-support.
@@ -85,7 +85,7 @@ paths:
           application/json:
             schema:    
               $ref: "#/components/schemas/PhishUpdateReqBody"
-              example:
+            example:
                 value:
                   {
                     "status": "inactive",
@@ -226,14 +226,14 @@ paths:
 
   # Malicious-IP module operations that use url parameters
   /malicious-ip/{id}:
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
     get:
       tags:
         - malicious-ip
       operationId: GetMalIPId
       description: "Get a specific malicious-ip record using it's id"
       summary: "Retrieve one malicious-ip record"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
       responses:
         '200':
           description: "Results are a series of these records, or a subset of fields"
@@ -272,8 +272,6 @@ paths:
         - malicious-ip
       operationId: PutMalIP
       summary: "Update the confidence value or status of a malicious-ip record"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
       requestBody:
         required: true
         content:
@@ -312,10 +310,8 @@ paths:
       tags:
         - malicious-ip
       operationId: GetMalIP
-      description: "Get a specific malicious-ip record using it's record_id or upto 10,000 of the latest entries with no id parameter"
-      summary: "Retrieve one malicious-ip record"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+      description: "Get upto 10,000 of the latest entries with no id parameter"
+      summary: "Retrieve the latest malicious-ip records."
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -439,19 +435,129 @@ paths:
       security: 
         - api_key: []
 
+  /malicious-ip/{id}/notes:
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
+    post:
+      tags:
+        - malicious-ip
+      operationId: PostMalIpNote
+      summary: "Add a new note to this record."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/NotesReqBody"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                { 
+                  "id": 108584304
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+
+    get:
+      tags:
+        - malicious-ip
+      operationId: GetMalIPNoteList
+      summary: "Get all the notes for an <id>."
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+  /malicious-ip/{id}/notes/{noteId}: 
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/NotesParameters"
+    get:
+      tags:
+        - malicious-ip
+      operationId: PostNote
+      summary: "Retrieve a specific note for this data record."
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+    put: 
+      tags:
+        - malicious-ip
+      operationId: UpdateMalIPNote
+      summary: "Update a note for this data record."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/NotesReqBody"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
 
 ### MALICIOUS-DOMAIN PATHS ###
 
   # Malicious-domain operations that use url parameters
   /malicious-domain/{id}:
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
     get:
       tags:
         - malicious-domain
       operationId: GetMalDomains
       description: "Get a specific malicious-ip record using it's id or upto 10,000 of the latest entries with no id parameter"
       summary: "Retrieve an entry"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
       responses:
         '200':
           description: "One record is returned"
@@ -492,9 +598,7 @@ paths:
       tags:
         - malicious-domain
       operationId: PutMalDomain
-      summary: "Update the confidence value or status of a malicious-ip record"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+      summary: "Update the confidence value or status of a malicious-domain record"
       requestBody:
         required: true
         content:
@@ -572,7 +676,7 @@ paths:
       tags:
         - malicious-domain
       operationId: PostMalDomainId
-      summary: "Submit one or more IP Addresses"
+      summary: "Submit one or more records."
       requestBody:
         required: true
         content:
@@ -757,14 +861,14 @@ paths:
 
   # Cryptocurrency-address operations that use url parameters
   /cryptocurrency-addresses/{id}:
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
     get:
       tags:
         - cryptocurrency-addresses
       operationId: GetCryptoId
       description: "Get a specific cryptocurrency record using it's id"
       summary: "A short summary"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
       responses:
         '200':
           description: "Results are one record"
@@ -807,9 +911,7 @@ paths:
       tags:
         - cryptocurrency-addresses
       operationId: PutCrypto
-      summary: "Update the confidence value or status of a malicious-ip record"
-      parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+      summary: "Update the confidence value or status of a record"
       requestBody:
         required: true
         content:
@@ -892,13 +994,13 @@ paths:
       tags:
         - cryptocurrency-addresses
       operationId: PostCrypto
-      summary: "Submit one or more IP Addresses"
+      summary: "Submit one or more currency addresses"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CryptoReqBody"
+              $ref: "#/components/requestBodies/CryptoReqBody"
             example:
                 {
                 "currency": "BTC",
@@ -938,7 +1040,7 @@ paths:
       tags:
         - malicious-domain
       operationId: SearchCrypto
-      summary: "Search malicious-domain records using one of more conditions."
+      summary: "Search cryptocurrency-addresses records using one of more conditions."
       requestBody:
         required: true
         content:
@@ -983,6 +1085,117 @@ paths:
                 $ref: "#/components/schemas/ErrorModel"
       security: 
         - api_key: []
+
+  /cryptocurrency-addresses/{id}/notes:
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
+    post:
+      tags:
+        - cryptocurrency-addresses
+      operationId: PostCryptoNote
+      summary: "Add a new note to this record."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/NotesReqBody"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                { 
+                  "id": 108584304
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+
+    get:
+      tags:
+        - cryptocurrency-addresses
+      operationId: GetCryptoNoteList
+      summary: "Get all the notes for an <id>."
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+  /cryptocurrency-addresses/{id}/notes/{noteId}: 
+    parameters:
+      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/NotesParameters"
+    get:
+      tags:
+        - cryptocurrency-addresses
+      operationId: PostCryptoNoteId
+      summary: "Retrieve a specific note for this data record."
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
+    put: 
+      tags:
+        - cryptocurrency-addresses
+      operationId: UpdateCryptoNote
+      summary: "Update a note for this data record."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/NotesReqBody"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                {
+                    "createdAt": "2023-02-09T21:00:20+00:00",
+                    "description": "Note is updated by Manual",
+                    "id": 20000155
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+
 
 ### REUSABLE COMPONENTS ###
 
@@ -1132,7 +1345,7 @@ components:
         type: string
         enum: [botnet C&C,scam,fake store,malicious,malware,other,storefront]
       confidence:
-        description: "An indicator of how confident the submittor that this is a real phish. Possible values:\n0 - Entry is a false positive  \n50 - Entry looks bad or suspicious but not verified\n90 - Our magic AI script found this\n100 - Verfied entry"
+        description: "An indicator of how confident the submittor that this is a real phish. Possible values:\n0 - Entry is a false positive;  50 - Entry looks bad or suspicious but not verified;  90 - Our magic AI script found thi;  100 - Verfied entry;"
         type: integer
         enum: [0,50,90,100]
       createdAt:
@@ -1221,7 +1434,9 @@ components:
       updatedBy:
         type: integer
         description: "(admin viewable only) The userid of the last user to modify tis record"
-
+      url:  
+        type: string
+        description: "The FULL URI."
 
 ### COMMON FILTERING SCHEMAS ###
 
@@ -1470,14 +1685,10 @@ components:
         description: "The fields in a malicious-ip module operation."
         anyOf:
           - $ref: "#/components/schemas/CommonFilterFields"
-          - url:
-            $ref: "#/components/schemas/string"
-          - brand:
-            $ref: "#/components/schemas/brand"
-          - status:
-            $ref: "#/components/schemas/status"
-          - ip: 
-            $ref: "#/components/schemas/ip"
+          - $ref: "#/components/schemas/url"
+          - $ref: "#/components/schemas/brand"
+          - $ref: "#/components/schemas/status"
+          - $ref: "#/components/schemas/ip"
           - asn: 
             $ref: "#/components/schemas/asn"
           - metadata: 
@@ -1726,48 +1937,7 @@ components:
 
 ### CRYPTOCURRENCY-ADDRESSES SCHEMAS ###
 
-      CryptoReqBody:
-        description: "The fields in a Cryptocurrency-addresses request Body"
-        type: object
-        properties:
-          currency:
-            required: true
-            $ref: "#/components/schemas/currency"
-          source:
-            $ref: "#/components/schemas/crypto-source"
-          discoveredAt:
-            required: true
-            $ref: "#/components/schemas/discoveredAt"
-          address:
-            required: true
-            $ref: '#/components/schemas/address' 
-            description: The wallet id or other identifying value
-          crimeCategory: 
-            $ref: "#/components/schemas/crimeCategory"
-          siteLink: 
-            type: string
-            description: Web address, if found on the web
-          price:
-            #TODO: should price be a string, so $ # etc can be used?
-            type: integer
-            description: The approximate cost of this activity
-          email: 
-            type: string
-            description: The source meail address, if activity came via email
-          procedure: 
-            type: string
-            enum:
-              - title:  "manual"
-                description: "A human found this activity."
-              - tile: "automatic"
-                description: "A script or bot found this activity."
-          actorCategory: 
-            $ref: '#/components/schemas/actorCategory'
-          confidence:
-            required: true
-            $ref: "#/components/schemas/confidence"
-          notes: 
-            $ref: "#/components/schemas/notes"
+      
 
       CryptoRespBody:
         description: "The cryptocurrency-addresses fields returned."
@@ -1907,11 +2077,18 @@ components:
       CommonParameters:
           name: id
           in: path
-          description: The id of the record to be returned. Without an id, the most recent 10,000 records are returned
+          description: The id of the record.
           required: true
-          explode: true
           schema:
             type: integer
+
+      NotesParameters:
+        name: noteId
+        in: path
+        description: The id of the record to be returned. Without an id, the most recent 10,000 records are returned
+        required: true
+        schema:
+          type: integer
 
       SearchObject:
         name: SearchObject
@@ -1974,6 +2151,78 @@ components:
             }
           }
    
+    requestBodies:
+
+      CryptoReqBody:
+        description: "The fields in a Cryptocurrency-addresses request Body"
+        content:
+          application/json:
+            schema:
+             properties:
+              currency:
+                required: true
+                $ref: "#/components/schemas/currency"
+              source:
+                $ref: "#/components/schemas/crypto-source"
+              discoveredAt:
+                required: true
+                $ref: "#/components/schemas/discoveredAt"
+              address:
+                required: true
+                $ref: '#/components/schemas/address' 
+                description: The wallet id or other identifying value
+              crimeCategory: 
+                $ref: "#/components/schemas/crimeCategory"
+              siteLink: 
+                type: string
+                description: Web address, if found on the web
+              price:
+                #TODO: should price be a string, so $ # etc can be used?
+                type: integer
+                description: The approximate cost of this activity
+              email: 
+                type: string
+                description: The source meail address, if activity came via email
+              procedure: 
+                type: string
+                enum:
+                  - title:  "manual"
+                    description: "A human found this activity."
+                  - tile: "automatic"
+                    description: "A script or bot found this activity."
+              actorCategory: 
+                $ref: '#/components/schemas/actorCategory'
+              confidence:
+                required: true
+                $ref: "#/components/schemas/confidence"
+              notes: 
+                $ref: "#/components/schemas/notes"
+
+### THE NOTES SUBSYSTEM ###
+
+# Some modules allow the user to add descriptive notes or other pertinent data to a data record. 
+# There are four endpoints for the notes subsystem:
+#    A. POST <module-name>/<id>/notes to create a new note.
+#    B. GET <module-name>/<id>/notes to list all the notes for a data record.
+#    C. GET <module-name>/<id>/notes/<note-id> to retrieve a specific note.
+#    D. PUT <module-name/<id>/notes/<note-id> to upfate the data in a note.
+
+      NotesReqBody:
+        description: "Create a new note for a data record."
+        content:
+          application/json:
+            schema: 
+              properties:
+                description:
+                  type: string
+                  description: "Any additional information."
+            example: 
+              { 
+              "description": "Oh, this is a bad event."
+              }
+
+ 
+
     securitySchemes:
       api_key:
         type: apiKey
