@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  title: eCXv3 - API v1.0
+  title: eCXv2 - API v1.0
   version: "1.0.2"
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 

@@ -12,6 +12,8 @@ Another example is to use Postman and display it there.  You may have a favourit
 
 If you have no favourite tool, visit https://editor.swagger.io and point the editor at the ecx-openapi-doc.yaml file. This site is capable of generating client code for you if various languages.
 
+Or, browse to https://apwg.github.io/ecx2-openapi-doc/#/
+
 ## Problems? Bugs? Something to share?
   Contact support@ecrimex.net via email.  Or raise an issue on the isues page.
  
