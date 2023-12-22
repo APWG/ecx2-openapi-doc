@@ -120,7 +120,7 @@ paths:
       description: "Get upto 10,000 of the latest phish when no id parameter is used"
       summary: Retrieve lots of phish records
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records inside a CommonRespBody wrapper"
@@ -194,7 +194,7 @@ paths:
       operationId: SearchPhish
       summary: "Search phish records using one of more conditions."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -306,8 +306,6 @@ paths:
       security: 
         - api_key: []
 
-    #TODO: Add a note to mal-ip?
-
   # Malicious-ip operations that don't use url parameters
   /malicious-ip:
     get:
@@ -317,7 +315,7 @@ paths:
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retrieve the latest malicious-ip records."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -400,7 +398,7 @@ paths:
       operationId: SearchMalIp
       summary: "Search malicious-ip records using one of more conditions."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -443,7 +441,7 @@ paths:
       security: 
         - api_key: []
 
-
+  
 ### MALICIOUS-DOMAIN PATHS ###
 
   # Malicious-domain operations that use url parameters
@@ -539,7 +537,7 @@ paths:
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retreive many records"
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -616,7 +614,7 @@ paths:
       operationId: SearchMalDomain
       summary: "Search malicious-domain records using one of more conditions."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -691,7 +689,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorModel"
-
 
     get:
       tags:
@@ -774,7 +771,7 @@ paths:
 
 
 ### REPORT-PHISHING PATHS ###
-### and the only user operation is to retrieve/get records
+### The only user operations are to retrieve/get records
 
   # Report-phishing operations that use url parameters
   /report-phishing/{id}:
@@ -813,7 +810,7 @@ paths:
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retreive many records"
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -839,7 +836,7 @@ paths:
       operationId: SearchReportPhish
       summary: "Search report-phishing records using one of more conditions."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -957,9 +954,6 @@ paths:
       security:
         - api_key: []
 
-
-      #TODO: Add a note to crypto
-
   # Cryptocurreny-addresses operations that don't use url parameters
   /cryptocurrency-addresses:
     get:
@@ -969,7 +963,7 @@ paths:
       description: "Get upto 10,000 of the latest cryptocurrency records"
       summary: "Get the most recent group of cryptocurrency entries"
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -1060,7 +1054,7 @@ paths:
       operationId: SearchCrypto
       summary: "Search cryptocurrency-addresses records using one of more conditions."
       parameters:
-        -  $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -1135,7 +1129,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorModel"
-
 
     get:
       tags:
