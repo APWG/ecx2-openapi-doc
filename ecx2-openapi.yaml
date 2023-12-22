@@ -306,8 +306,6 @@ paths:
       security: 
         - api_key: []
 
-    #TODO: Add a note to mal-ip?
-
   # Malicious-ip operations that don't use url parameters
   /malicious-ip:
     get:
@@ -692,7 +690,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorModel"
 
-
     get:
       tags:
         - malicious-domain
@@ -773,9 +770,8 @@ paths:
                 $ref: "#/components/schemas/ErrorModel"
 
 
-
 ### REPORT-PHISHING PATHS ###
-### and the only user operation is to retrieve/get records
+### The only user operations are to retrieve/get records
 
   # Report-phishing operations that use url parameters
   /report-phishing/{id}:
@@ -957,9 +953,6 @@ paths:
                 $ref: "#/components/schemas/ErrorModel"
       security:
         - api_key: []
-
-
-      #TODO: Add a note to crypto
 
   # Cryptocurreny-addresses operations that don't use url parameters
   /cryptocurrency-addresses:
