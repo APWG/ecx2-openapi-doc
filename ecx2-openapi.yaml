@@ -1,7 +1,7 @@
 openapi: "3.0.3"
 info:
   title: eCXv2 - API v1.0
-  version: "1.0.2"
+  version: "1.0.3"
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
     API software issues can be raised on the issues page at https://github.com/APWG/ecx-support.
@@ -86,7 +86,6 @@ paths:
             schema:    
               $ref: "#/components/schemas/PhishUpdateReqBody"
             example:
-                value:
                   {
                     "status": "inactive",
                     "confidence": 50
@@ -161,7 +160,6 @@ paths:
             schema:
               $ref: "#/components/schemas/PhishPostBody"
             example:
-                value:
                   {
                     "url": "http://demolink3.com",
                     "brand": "APWG",
@@ -202,7 +200,6 @@ paths:
             schema:
               $ref: "#/components/schemas/PhishSearchBody"
             example:
-                value:
                   {
                   "filters": {
                     "confidence": 90, "discoveredAt": {"from": 1702147232,"to": 1702150832} },
@@ -246,7 +243,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/MalIPRespBody"
               example:
-                  value:
                     { 
                     "id": 128682205,
                     "discoveredAt": 1687367508,
@@ -502,7 +498,6 @@ paths:
             schema:    
               $ref: "#/components/schemas/MalDomainReqBody"
             example:
-              
                 {
                   "classification": "scam",
                   "confidence": 100,
@@ -560,7 +555,7 @@ paths:
                   "metadata": {
                     "submissionCount": 1
                   }
-                  }
+                }
         default:
           description: ""
           content:
@@ -622,7 +617,6 @@ paths:
             schema:
               $ref: "#/components/schemas/MalDomainSearchBody"
             example:
-                value:
                   {
                     "filters": 
                       {"id": {"from": 128682228, "to": 128682229 } },
@@ -1455,13 +1449,23 @@ components:
 
   #  They look like this:
   #  {
-  #  "filters": {...},
-  #  "fields": [...],
+  #  "filters": {
+  #   --- fieldname value has Value1 OR value2:
+  #       "fieldname": [value1, value2],
+  #   --- fieldname value is between two integers:
+  #       "fieldname": { "from": x, "to": y},
+  #   --- fieldname is a superset of a wildcard:
+  #       "fieldname": ".com"
+  #   },
+  #   --- Only return a subset of fields in response:
+  #  "fields": ["fields1","field2"],
+  #   --- Sort the results by a filed in ascending or descending order
   #  "sorts": [
   #      { "confidence": "asc" }, --- order by index 0 first
   #      { "createdAt": "desc" }, --- order by index 1 second,
   #      { "id": "asc"}           --- order by index 3 always last
   #  ],
+  #  --- how many results you want back: 
   #  "limit": 25
   #}
 
