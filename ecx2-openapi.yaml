@@ -1,7 +1,8 @@
 openapi: "3.0.3"
 info:
   title: eCXv2 - API v1.0
-  version: "1.0.3"
+  version: "1.0.4"
+  
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
     API software issues can be raised on the issues page at https://github.com/APWG/ecx-support.
@@ -28,6 +29,10 @@ tags:
   - name: report-phishing
     description: Real-time archive of the reportphishing@apwg.org email mailbox
   
+externalDocs:
+  description: API Changelog Documentation
+  url: https://github.com/APWG/ecx2-openapi-doc
+
 ### The API ENDPOINTS (modules)
 
 paths:
@@ -280,6 +285,7 @@ paths:
               $ref: "#/components/schemas/MalIPUpdateReqBody"
             example:
               {
+                "ip": "10.2.4.8",
                 "brand": "ICANT",
                 "confidence": 100,
                 "status": "active"
@@ -323,22 +329,16 @@ paths:
                 # The data looks like this:
                 { 
                 "confidence": 100,
-                "submissionCount": 1,
+                "meta": {
+                  "submissionCount": 1
+                },
                 "classification": "malicious",
                 "discoveredAt": 1701821108,
                 "createdAt": 1701821108,
-                "domain": "trippynaturebrainfoodshop.com",
-                "files": [],
+                "ip": "10.2.3.4",
                 "id": "392807",
                 "updatedAt": 1701821108,
                 "status": "active",
-                "notes": [
-                  {
-                    "createdAt": 1701821108,
-                    "description": "Advance Fee Fraud\nScam type: drug",
-                    "id": "392807.note0"
-                  }
-                ],
                 }
         default:
           description: ""
@@ -362,7 +362,6 @@ paths:
               $ref: "#/components/schemas/MalIPReqBody"
             example:
               {
-              "brand": "APWG",
               "ip": "10.1.3.6",
               "confidence": 90,
               "discoveredAt": 1702427976,
@@ -419,11 +418,13 @@ paths:
                   "data": [
                   {
                     "id": 128682229,
+                    "ip": "10.2.3.4",
                     "brand": "APWG",
                     "status": "active"
                   },
                   {
                     "id": 128682228,
+                    "ip": "10.2.3.5",
                     "brand": "prudential homes",
                     "status": "active"
                   } ]
