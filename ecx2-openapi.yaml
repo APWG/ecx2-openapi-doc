@@ -31,7 +31,7 @@ tags:
   
 externalDocs:
   description: API Changelog Documentation
-  url: https://github.com/APWG/ecx2-openapi-doc
+  url: https://github.com/APWG/ecx2-openapi-doc/blob/main/Changelog
 
 ### The API ENDPOINTS (modules)
 
