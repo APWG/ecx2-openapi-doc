@@ -58,14 +58,24 @@ paths:
                 $ref: "#/components/schemas/PhishRespBody"
               example:
                 {
-                "id": 108584304,
-                "url": "http://demolink2.com/phish1.php",
-                "brand": "BDA",
-                "discoveredAt": 1002020785,
-                "createdAt": 1702020185,
-                "updatedAt": 1702020785,
-                "status": "inactive",
-                "confidence": 50
+                  "id": 109998909,
+                  "discoveredAt": 1704066147,
+                  "brand": "yahoo",
+                  "confidence": 90,
+                  "url": "https://hello-world.demolink.bad/",
+                  "status": "active",
+                  "updatedAt": 1704066999,
+                  "createdAt": null,
+                  "ip": [
+                    "172.31.138.180"
+                  ],
+                  "asn": [
+                    1
+                  ],
+                  "metadata": {
+                    "submissionCount": 1
+                  },
+                  "tld": "demolink.bad"
                 } 
         default:
           description: ""
@@ -135,14 +145,24 @@ paths:
               example:
                 # The data looks like this:
                 { 
-                "id": 108584304,
-                "url": "http://demolink2.com/phish1.php",
-                "brand": "BDA",
-                "discoveredAt": 1002020785,
-                "createdAt": 1702020185,
-                "updatedAt": 1702020785,
-                "status": "inactive",
-                "confidence": 50
+                  "id": 109998909,
+                  "discoveredAt": 1704066147,
+                  "brand": "yahoo",
+                  "confidence": 90,
+                  "url": "https://hello.world/phish.php",
+                  "status": "active",
+                  "updatedAt": 1704066999,
+                  "createdAt": null,
+                  "ip": [
+                    "172.16.138.1"
+                  ],
+                  "asn": [
+                    1
+                  ],
+                  "metadata": {
+                    "submissionCount": 1
+                  },
+                  "tld": "hello.world"
                 }
         default:
           description: ""
@@ -205,20 +225,31 @@ paths:
             schema:
               $ref: "#/components/schemas/PhishSearchBody"
             example:
-                  {
-                  "filters": {
-                    "confidence": 90, "discoveredAt": {"from": 1702147232,"to": 1702150832} },
-                    "fields": {"id","confidence"}
-                  }
+              {
+              "filters": {
+                "confidence": 90, 
+                "discoveredAt": {"from": 1702147232,"to": 1702150832} 
+                },
+              "fields": {"id","confidence"}
+              }
       responses:
         "200":
           description: ""
           content:
             'application/json':
               example:
-                { 
-                
-                }
+              {  
+                "data": [
+                {
+                  "id": 109899711,
+                  "confidence": 90
+                },
+                {
+                  "id": 109899710,
+                  "confidence": 90
+                }  
+                ]
+              }
         default:
           description: ""
           content:
@@ -328,16 +359,19 @@ paths:
               example:
                 # The data looks like this:
                 { 
+                "id": "392807",
                 "confidence": 100,
-                "meta": {
+                "brand": "PayPal",
+                "metadata": {
                   "submissionCount": 1
                 },
                 "classification": "malicious",
+                "description": "Bad person scanning",
                 "discoveredAt": 1701821108,
                 "createdAt": 1701821108,
                 "ip": "10.2.3.4",
-                "id": "392807",
                 "updatedAt": 1701821108,
+                "asn": [65556],
                 "status": "active",
                 }
         default:
@@ -403,10 +437,8 @@ paths:
             example:
                 value:
                   {
-                    "filters": 
-                      {"id": {"from": 128682228, "to": 128682229 } },
-                    "fields": 
-                      ["brand","status","id"]
+                    "filters": {"id": {"from": 21970198, "to": 21970199 } },
+                    "fields": ["brand","status","id"]
                   }
       responses:
         "200":
@@ -416,18 +448,17 @@ paths:
               example:
                 { 
                   "data": [
-                  {
-                    "id": 128682229,
-                    "ip": "10.2.3.4",
-                    "brand": "APWG",
-                    "status": "active"
-                  },
-                  {
-                    "id": 128682228,
-                    "ip": "10.2.3.5",
-                    "brand": "prudential homes",
-                    "status": "active"
-                  } ]
+                    {
+                      "id": 21970199,
+                      "brand": "APWG",
+                      "status": "active"
+                    },
+                    {
+                      "id": 21970198,
+                      "brand": "ICANN",
+                      "status": "active"
+                    }
+                  ],
                 }
         default:
           description: ""
@@ -895,7 +926,7 @@ paths:
                   "siteLink": "googole.com",
                   "price": 70,
                   "email": "",
-                  "confidence": "100",
+                  "confidence": 100,
                   "createdAt": 1702253398,
                   "updatedAt": 1702253398,
                   "status": "",

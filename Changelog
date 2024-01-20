@@ -1,8 +1,8 @@
 This is a manually-generated list of changes to the API spec.
 
-05..2   - The legacy ECX API. Not real exciting.
-1.0.0   - First mostly complete api description.
-1.0.1   - Added examples and RequestBody elements.
-1.0.2   - Added the 'notes' endpoints for malicious_domain and cryptocurrency. 
-1.0.3   - Corrected the notes to be on the right endpoint. Fixed a bunch of spelling errors. ALso corrected some of the examples to not include the 'example' tag.
-1.0.4   - The malicious_ip examples didn't show the return of the IP address. 
+05.2    02/13/2018  - The legacy ECX API. Not real exciting.
+1.0.0   11/30/2023  - First mostly complete api description.
+1.0.1   12/23/2023  - Added examples and RequestBody elements.
+1.0.2   12/28/2023  - Added the 'notes' endpoints for malicious_domain and cryptocurrency. 
+1.0.3   01/11/2023  - Corrected the notes to be on the right endpoint. Fixed a bunch of spelling errors. ALso corrected some of the examples to not include the 'example' tag.
+1.0.4   01/20/2023  - The data types and examples were checked to ensure they matched the actual code. The malicious_ip examples didn't show the returning of the IP address. The phish examples were just wrong.
