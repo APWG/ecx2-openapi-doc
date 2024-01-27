@@ -162,7 +162,7 @@ paths:
                   "metadata": {
                     "submissionCount": 1
                   },
-                  "tld": "hello.world"
+                  "tld": "world"
                 }
         default:
           description: ""
