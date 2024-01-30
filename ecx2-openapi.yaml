@@ -238,18 +238,19 @@ paths:
           content:
             application/json:
               example:
-              {  
-                "data": [
-                {
-                  "id": 109899711,
-                  "confidence": 90
-                },
-                {
-                  "id": 109899710,
-                  "confidence": 90
-                } 
+               { 
+                "data":
+                [
+                  {
+                    "id": 109899711,
+                    "confidence": 90
+                  },
+                  {
+                    "id": 109899710,
+                    "confidence": 90
+                  }
                 ]
-              }
+               } 
         default:
           description: ""
           content:
