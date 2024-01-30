@@ -236,7 +236,7 @@ paths:
         "200":
           description: ""
           content:
-            'application/json':
+            application/json:
               example:
               {  
                 "data": [
@@ -247,7 +247,7 @@ paths:
                 {
                   "id": 109899710,
                   "confidence": 90
-                }  
+                } 
                 ]
               }
         default:
