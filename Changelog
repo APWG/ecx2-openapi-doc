@@ -4,5 +4,9 @@ This is a manually-generated list of changes to the API spec.
 1.0.0   11/30/2023  - First mostly complete api description.
 1.0.1   12/23/2023  - Added examples and RequestBody elements.
 1.0.2   12/28/2023  - Added the 'notes' endpoints for malicious_domain and cryptocurrency. 
-1.0.3   01/11/2023  - Corrected the notes to be on the right endpoint. Fixed a bunch of spelling errors. ALso corrected some of the examples to not include the 'example' tag.
-1.0.4   01/20/2023  - The data types and examples were checked to ensure they matched the actual code. The malicious_ip examples didn't show the returning of the IP address. The phish examples were just wrong.
+1.0.3   01/11/2023  - Corrected the notes to be on the right endpoint. Fixed a bunch of spelling errors. 
+                      Also corrected some of the examples to not include the 'example' tag.
+1.0.4   01/20/2023  - The data types and examples were checked to ensure they matched the actual code. 
+                      The malicious_ip examples didn't show the returning of the IP address. The phish examples were just wrong. And the github swagger processer decided it now needs a space character in ONE of the examples. :(
+1.0.5   02/05/2024  - Fixed a duplicate operationId and changed the ResponseBodies to just schemas. 
+                      Various validators don't like responseBodies; successful validation in one fails in another. So they're gone.
