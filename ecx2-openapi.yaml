@@ -2277,8 +2277,7 @@ components:
 
     securitySchemes:
       api_key:
-        type: apiKey
-        name: Authorization
-        in: header
+        type: http
+        scheme: bearer
         description: This API uses a http Header "Authentication" that contains a "Bearer <api_key>" value
-      
+  
