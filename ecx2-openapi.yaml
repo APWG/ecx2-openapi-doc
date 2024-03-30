@@ -223,14 +223,70 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PhishSearchBody"
+              anyOf:
+                - type: object
+                  properties:
+                    filters:
+                      anyOf:
+                        - allOf: 
+                          - $ref: "#components/schemas/CommonFilters"
+                          - type: object
+                            properties:
+                              url:
+                                type: string
+                          - type: object
+                            properties:
+                              brand:
+                                type: string
+                - type: object
+                  description: An array of field names.
+                  properties:
+                    fields:
+                      anyOf:
+                        - type: string
+                          enum: [id, brand, discoveredAt, url, brand,
+                                discoveredAt, status, confidence,
+                                createdAt, updatedAt]
+                - type: object
+                  description: specify optional sorting options as [{"field":"asc|desc"}]
+                  properties:
+                    sorts:
+                      anyOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              enum: [asc,desc]
+                            brand:
+                              type: string
+                              enum: [asc,desc] 
+                            discoveredAT: 
+                              type: string
+                              enum: [asc,desc]
+                            url:
+                              type: string
+                              enum: [asc,desc]
+                            status:
+                              type: string
+                              enum: [asc,desc]
+                            confidence:
+                              type: string
+                              enum: [asc,desc]                            
+                            createdAt: 
+                              type: string
+                              enum: [asc,desc]                            
+                            updatedAt:
+                              type: string
+                              enum: [asc,desc]                            
+                - $ref: "#/components/schemas/limit"
+
             example:
               {
               "filters": {
                 "confidence": 90, 
                 "discoveredAt": {"from": 1702147232,"to": 1702150832} 
                 },
-              "fields": {"id","confidence"}
+              "fields": ["id","confidence"]
               }
       responses:
         "200":
@@ -436,11 +492,10 @@ paths:
             schema:
               $ref: "#/components/schemas/MalIPSearchBody"
             example:
-                value:
-                  {
-                    "filters": {"id": {"from": 21970198, "to": 21970199 } },
-                    "fields": ["brand","status","id"]
-                  }
+              {
+                "filters": {"id": {"from": 21970198, "to": 21970199 } },
+                "fields": ["brand","status","id"]
+              }
       responses:
         "200":
           description: ""
@@ -648,7 +703,57 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MalDomainSearchBody"
+              anyOf:
+                - type: object
+                  properties:
+                    filters:
+                      anyOf:
+                        - allOf: 
+                          - $ref: "#components/schemas/CommonFilters"
+                          - type: object
+                            properties:
+                              domain:
+                                type: string
+                - type: object
+                  description: An array of field names.
+                  properties:
+                    fields:
+                      anyOf:
+                        - type: string
+                          enum: [id, domain, discoveredAt, url, brand,
+                                discoveredAt, status, confidence,
+                                createdAt, updatedAt]
+                - type: object
+                  description: specify optional sorting options as [{"field":"asc|desc"}]
+                  properties:
+                    sorts:
+                      anyOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              enum: [asc,desc]
+                            domain:
+                              type: string
+                              enum: [asc,desc] 
+                            discoveredAT: 
+                              type: string
+                              enum: [asc,desc]
+                            status:
+                              type: string
+                              enum: [asc,desc]
+                            confidence:
+                              type: string
+                              enum: [asc,desc]                            
+                            createdAt: 
+                              type: string
+                              enum: [asc,desc]                            
+                            updatedAt:
+                              type: string
+                              enum: [asc,desc]                            
+                - $ref: "#/components/schemas/limit" 
+           
+           
             example:
                   {
                     "filters": 
@@ -818,7 +923,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/ReportPhishingRespBody"
               example:
-                $ref: '#/components/examples/example-reportphishing'
+                {
+                  "id": 19492278,
+                  "sourceIp": "",
+                  "emailSubject": "PHISING SITES",
+                  "recipientEmail": "reportphishing@apwg.org",
+                  "senderEmail": "eCrime Support <support@ecrimex.net>",
+                  "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
+                  "emailBody": "Content-Type: text/plain; charset=\"UTF-8\"\n
+                  Hello, I want to report a spam link (gambling sites ilegal) in indonesia\nthat use link :\n\nhttps://www.example.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ynsnyvpunk.1234567890.pl/\n
+                  Please help us to immediately takedown those links that appear.  Despite what it is pretending, this is a phising site and not an official\nwebsite.\n
+                  You are providing service to the people operating the Website while it is\n
+                  very obviously being used for fraud, So please take it down as soon as\npossible ...\n\n
+                  Please cooperate\nThank You for your attention\n\n",
+                  "sentAt": 1702130917,
+                  "discoveredAt": 1702102201,
+                  "receivedAt": 1702102144,
+                  "createdAt": 1702102201,
+                  "updatedAt": 1702102201,
+                  "metadata": {
+                    "submissionCount": 1
+                  }
+                }
+        
         default:
           description: ""
           content:
@@ -829,7 +956,7 @@ paths:
         - api_key: []
 
   # reportphisihng operations that don't use an id parameter.
-  /report-phishing:
+  /report-phishing: 
     get:
       tags:
         - report-phishing
@@ -843,10 +970,31 @@ paths:
           description: "Results are a series of these records within a CommonRespBody"
           content:
             application/json:
-              schema:
+              schema: #TODO broke example
                 $ref: "#/components/schemas/ReportPhishingRespBody"
               example:
-                $ref: '#/components/examples/example-reportphishing'
+                {
+                  "id": 19492278,
+                  "sourceIp": "",
+                  "emailSubject": "FISHING SITES",
+                  "recipientEmail": "reportphishing@apwg.org",
+                  "senderEmail": "eCrime Support <support@ecrimex.net>",
+                  "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
+                  "emailBody": "Content-Type: text/plain; charset=\"UTF-8\"\n
+                  Hello, I want to report a spam link (gambling sites ilegal) in indonesia\nthat use link :\n\nhttps://www.example.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ynsnyvpunk.1234567890.pl/\n
+                  Please help us to immediately takedown those links that appear.  Despite what it is pretending, this is a phising site and not an official\nwebsite.\n
+                  You are providing service to the people operating the Website while it is\n
+                  very obviously being used for fraud, So please take it down as soon as\npossible ...\n\n
+                  Please cooperate\nThank You for your attention\n\n",
+                  "sentAt": 1702130917,
+                  "discoveredAt": 1702102201,
+                  "receivedAt": 1702102144,
+                  "createdAt": 1702102201,
+                  "updatedAt": 1702102201,
+                  "metadata": {
+                    "submissionCount": 1
+                  }
+                }
         default:
           description: ""
           content:
@@ -871,7 +1019,6 @@ paths:
             schema:
               $ref: "#/components/schemas/ReportPhishingSearchBody"
             example:
-                value:
                   {
                     "filters": 
                       {"id": {"from": 128682228, "to": 128682229 } },
@@ -887,7 +1034,28 @@ paths:
               schema:
                 $ref: "#/components/schemas/ReportPhishingRespBody"
               example:
-                $ref: '#/components/examples/example-reportphishing'
+                {
+                  "id": 19492278,
+                  "sourceIp": "",
+                  "emailSubject": "PHISING SITES",
+                  "recipientEmail": "reportphishing@apwg.org",
+                  "senderEmail": "eCrime Support <support@ecrimex.net>",
+                  "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
+                  "emailBody": "Content-Type: text/plain; charset=\"UTF-8\"\n
+                  Hello, I want to report a spam link (gambling sites ilegal) in indonesia\nthat use link :\n\nhttps://www.example.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ynsnyvpunk.1234567890.pl/\n
+                  Please help us to immediately takedown those links that appear.  Despite what it is pretending, this is a phising site and not an official\nwebsite.\n
+                  You are providing service to the people operating the Website while it is\n
+                  very obviously being used for fraud, So please take it down as soon as\npossible ...\n\n
+                  Please cooperate\nThank You for your attention\n\n",
+                  "sentAt": 1702130917,
+                  "discoveredAt": 1702102201,
+                  "receivedAt": 1702102144,
+                  "createdAt": 1702102201,
+                  "updatedAt": 1702102201,
+                  "metadata": {
+                    "submissionCount": 1
+                  }
+                }
         default:
           description: ""
           content:
@@ -1003,7 +1171,7 @@ paths:
                 "id": 1292752,
                 "currency": "ADA",
                 "source": "web",
-                "discoveredAt": "2023-12-11T00:09:30.313Z",
+                "discoveredAt": 1702153398,
                 "address": "",
                 "crimeCategory": "blackmail",
                 "siteLink": "googley.com",
@@ -1089,7 +1257,6 @@ paths:
             schema:
               $ref: "#/components/schemas/CryptoSearchBody"
             example:
-                value:
                   {
                     "filters": 
                       {"id": {"from": 128682228, "to": 128682229 } },
@@ -1437,9 +1604,17 @@ components:
           - title:  ZEC
             description:
       discoveredAt:
-        description: "Expressed as milliseconds since the epoch"
-        type: integer
-        format: epoch
+        description: "Expressed as seconds since the epoch"
+        type: object
+        properties:
+          from:
+            type: integer
+            format: int32
+            example: 1702353706
+          to:
+            type: integer
+            format: int32
+            example: 1705954969
 
       ip: 
         type: array
@@ -1501,6 +1676,11 @@ components:
   #  --- how many results you want back: 
   #  "limit": 25
   #}
+      fromToId:
+        type: object
+        properties:
+          id:
+            $ref: "#/components/schemas/fromto"
 
       fromto:
         description: "return records within a range"
@@ -1511,29 +1691,68 @@ components:
           to:
             type: integer
       sortDirection:
-        description: "Sort the reults in either ascending or descending order."
+        description: "Sort the results in either ascending or descending order."
         type: string
         enum: [asc,desc]
 
       limit:
         description: "How many records to return."
-        type: integer
+        properties:
+          limit:
+            type: integer
+        
         
 
-      CommonFilterFields:
-        description: "Common Filtering Field List."
-        anyOf:
-          - id:
-            $ref: "#/components/schemas/fromto"
-          - confidence:
-            $ref: "#/components/schemas/fromto"
-          - discoveredAt:
-            $ref: "#/components/schemas/fromto"
-          - updatedAt:
-            $ref: "#/components/schemas/fromto"
-          - createdAt:
-            $ref: "#/components/schemas/fromto"
-            
+      CommonFilters:
+        description: "Common Filtering Objects."
+        #type: object
+        properties:
+              id:
+                anyOf:
+                  - $ref: "#/components/schemas/fromto"
+                  - $ref: "#/components/schemas/id"
+                  - type: object
+                    properties:
+                      from:
+                        type: integer
+                      to:
+                        type: integer
+
+              confidence:
+                oneOf:
+                  - type: integer
+                  - type: integer
+                    description: An array of integers
+                    enum: [0,50,90,100]
+              discoveredAt:
+                description: Seconds from epoch
+                type: object
+                properties:
+                  from:
+                    type: integer
+                  to:
+                    type: integer
+              updatedAt:
+                description: Seconds from epoch
+                type: object
+                properties:
+                  from:
+                    type: integer
+                  to:
+                    type: integer
+              createdAt:
+                description: Seconds from epoch
+                type: object
+                properties:
+                  from:
+                    type: integer
+                  to:
+                    type: integer  
+              status:
+                type: string
+                enum: [active,inactive]
+                example: active  
+
 
 ### PHISH MODULE SCHEMAS ###
   
@@ -1545,8 +1764,9 @@ components:
             type: string
             description: "phish url in format http[s]://domain/page"
           brand:
-            $ref: "#/components/schemas/brand"
-          discoveredAt:
+            type: string
+            description: The phished brandname
+          disc:
             $ref: "#/components/schemas/discoveredAt"
           status:
             $ref: "#/components/schemas/status"
@@ -1578,72 +1798,49 @@ components:
         $ref: "#/components/schemas/PhishFields"
 
       PhishFields:
-        description: "The fields in a phish module operation."
-        anyOf:
-          - $ref: "#/components/schemas/CommonFilterFields"
-          - url:
-            $ref: "#/components/schemas/string"
-          - brand:
-            $ref: "#/components/schemas/brand"
-          - status:
-            $ref: "#/components/schemas/status"
-          - ip: 
-            $ref: "#/components/schemas/ip"
-          - asn: 
-            $ref: "#/components/schemas/asn"
-          - metadata: 
-            $ref: "#/components/schemas/metadata"
-
-      PhishSorts:
-        description: "The sorting options for responses."
-        anyOf:
-          - id:
-            $ref: "#/components/schemas/sortDirection"
-          - url:
-            $ref: "#/components/schemas/sortDirection"
-          - brand:
-            $ref: "#/components/schemas/sortDirection"
-          - discoveredAt:
-            $ref: "#/components/schemas/sortDirection"
-          - status:
-            $ref: "#/components/schemas/sortDirection"
-          - confidence:
-            $ref: "#/components/schemas/sortDirection"
-          - ip: 
-            $ref: "#/components/schemas/sortDirection"
-          - asn: 
-            $ref: "#/components/schemas/sortDirection"
-          - updatedAt: 
-            $ref: "#/components/schemas/sortDirection"
-          - createdAt: 
-            $ref: "#/components/schemas/sortDirection"
-
-
-      PhishSearchBody:
-        type: object
+        description: An array of the fields to return from a search.
         properties:
           fields:
-            type: array
-            items:
-              anyOf:
-                - title: id
-                - title: url
-                - title: brand
-                - title: discoveredAt
-                - title: status
-                - title: confidence
-                - title: createdAt
-                - title: updatedAt
-          filters:
-            type: array
-            items:
-              $ref: "#/components/schemas/PhishFields"
+           type: array
+           items:
+            type: string
+            enum:    
+            - id                 
+            - url
+            - brand
+            - discoveredAt
+            - status
+            - confidence
+            - createdAt
+            - updatedAt
+
+      PhishSorts:
+        description: ""
+        properties:
           sorts:
             type: array
             items:
-              $ref: "#/components/schemas/PhishSorts"
-          limit:
-              $ref: "#/components/schemas/limit"
+              type: object
+              properties:
+                id:
+                  type: string
+                  enum: [asc,desc]
+                  example: desc 
+
+          #  - url
+          #  - brand
+          #  - discoveredAt
+          #  - status
+          #  - confidence
+          #  - ip
+          #  - asn
+          #  - updatedAt
+          #  - createdAt
+          #direction:
+            #  description: "Sort the results in either ascending or descending order."
+          #  type: string
+          #  enum: [asc,desc]
+
 
 ### MALICIOUS-IP SCHEMAS 
 
@@ -1734,7 +1931,7 @@ components:
       MalIpFields:
         description: "The fields in a malicious-ip module operation."
         anyOf:
-          - $ref: "#/components/schemas/CommonFilterFields"
+          - $ref: "#/components/schemas/CommonFilters"
           - $ref: "#/components/schemas/url"
           - $ref: "#/components/schemas/brand"
           - $ref: "#/components/schemas/status"
@@ -1863,7 +2060,7 @@ components:
       MalDomainFields:
         description: "The fields in a malicious-ip module operation."
         anyOf:
-          - $ref: "#/components/schemas/CommonFilterFields"
+          - $ref: "#/components/schemas/CommonFilters"
           - domain:
             $ref: "#/components/schemas/string"
           - status:
@@ -1876,6 +2073,7 @@ components:
       MalDomainSorts:
         description: "The sorting options for responses."
         anyOf:
+      #TODO broke
           - id:
             $ref: "#/components/schemas/sortDirection"
           - domain:
@@ -2037,7 +2235,7 @@ components:
             enum:
               - title:  "manual"
                 description: "A human found this activity."
-              - tile: "automatic"
+              - title: "automatic"
                 description: "A script or bot found this activity."
           actorCategory: 
             $ref: '#/components/schemas/actorCategory'
@@ -2176,13 +2374,13 @@ components:
         description: "Create a new note for a data record."
         type: object 
         properties:
-                description:
-                  type: string
-                  description: "Any additional information."
+          description:
+            type: string
+            description: "Any additional information."
         example: 
-              { 
-              "description": "Oh, this is a bad event."
-              }
+          { 
+          "description": "Oh, this is a bad event."
+          }
 
  
 
@@ -2213,15 +2411,6 @@ components:
         schema:
           type: integer
 
-      SearchObject:
-        name: SearchObject
-        in: query
-        required: true
-        description: ""
-        schema:
-          $ref: "#/components/schemas/PhishFields"
-        #TODO: is this needed?
-
     examples:
       example1:
         summary: "This is an example of a no-param response body."
@@ -2230,7 +2419,7 @@ components:
           "current_page": 1,
           "data": {
             "json events"
-          },
+            },
           "first_page_url": "https://ecrimex.net/api/v1/phish?page=1",
           "from": 1,
           "last_page": 400,
@@ -2248,36 +2437,35 @@ components:
           "total": 10000
           }
   
-      example-reportphishing:
-        summary: "This is what the data looks like, abridged"
-        value:
-          {
-            "id": 19492278,
-            "sourceIp": "",
-            "emailSubject": "PHISING SITES",
-            "recipientEmail": "reportphishing@apwg.org",
-            "senderEmail": "eCrime Support <support@ecrimex.net>",
-            "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
-            "emailBody": "Content-Type: text/plain; charset=\"UTF-8\"\n
-            Hello, I want to report a spam link (gambling sites ilegal) in indonesia\nthat use link :\n\nhttps://www.example.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ynsnyvpunk.1234567890.pl/\n
-            Please help us to immediately takedown those links that appear.  Despite what it is pretending, this is a phising site and not an official\nwebsite.\n
-            You are providing service to the people operating the Website while it is\n
-            very obviously being used for fraud, So please take it down as soon as\npossible ...\n\n
-            Please cooperate\nThank You for your attention\n\n",
-            "sentAt": 1702130917,
-            "discoveredAt": 1702102201,
-            "receivedAt": 1702102144,
-            "createdAt": "",
-            "updatedAt": 1702102201,
-            "metadata": {
-              "submissionCount": 1
-            }
-          }
+#      example-reportphishing:
+#        summary: "This is what the data looks like, abridged"
+#        {
+#            "id": 19492278,
+#            "sourceIp": "",
+#            "emailSubject": "PHISING SITES",
+#            "recipientEmail": "reportphishing@apwg.org",
+#            "senderEmail": "eCrime Support <support@ecrimex.net>",
+#            "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
+#            "emailBody": "Content-Type: text/plain; charset=\"UTF-8\"\n
+#            Hello, I want to report a spam link (gambling sites ilegal) in indonesia\nthat use link :\n\nhttps://www.example.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ynsnyvpunk.1234567890.pl/\n
+#            Please help us to immediately takedown those links that appear.  Despite what it is pretending, this is a phising site and not an official\nwebsite.\n
+#            You are providing service to the people operating the Website while it is\n
+#            very obviously being used for fraud, So please take it down as soon as\npossible ...\n\n
+#            Please cooperate\nThank You for your attention\n\n",
+#            "sentAt": 1702130917,
+#            "discoveredAt": 1702102201,
+#            "receivedAt": 1702102144,
+#            "createdAt": 1702102201,
+#            "updatedAt": 1702102201,
+#            "metadata": {
+#              "submissionCount": 1
+#            }
+#        }  
    
 
     securitySchemes:
       api_key:
         type: http
         scheme: bearer
-        description: This API uses a http Header "Authentication" that contains a "Bearer <api_key>" value
+        description: This API uses a http Header "Authorization" that contains a "Bearer <api_key>" value
   
