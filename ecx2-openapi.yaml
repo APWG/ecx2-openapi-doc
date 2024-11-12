@@ -127,11 +127,7 @@ paths:
         - phish
       operationId: GetPhish
       description: "Get upto 10,000 of the latest phish when no id parameter is used"
-      summary: Retrieve lots of phish records
-      parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
-        - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"      
+      summary: Retrieve lots of phish records     
       responses:
         '200':
           description: "Results are a series of these records inside a CommonRespBody wrapper"
@@ -232,9 +228,7 @@ paths:
       operationId: SearchPhish
       summary: "Search phish records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
         - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       requestBody:
         required: true
         content:
@@ -421,10 +415,6 @@ paths:
       operationId: GetMalIP
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retrieve the latest malicious-ip records."
-      parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
-        - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -518,9 +508,7 @@ paths:
       operationId: SearchMalIp
       summary: "Search malicious-ip records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
         - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       requestBody:
         required: true
         content:
@@ -697,10 +685,6 @@ paths:
       operationId: GetMalDomain
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retreive many records"
-      parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
-        - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -792,9 +776,7 @@ paths:
       operationId: SearchMalDomain
       summary: "Search malicious-domain records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PerPageParameter"
         - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       requestBody:
         required: true
         content:
@@ -1049,8 +1031,6 @@ paths:
   /report-phishing: 
     parameters:
       - $ref: "#/components/parameters/PageParameter"
-      - $ref: "#/components/parameters/PerPageParameter"
-      - $ref: "#/components/parameters/LimitParameter"
     get:
       tags:
         - report-phishing
@@ -1100,8 +1080,6 @@ paths:
   /report-phishing/search:
     parameters:
       - $ref: "#/components/parameters/PageParameter"
-      - $ref: "#/components/parameters/PerPageParameter"
-      - $ref: "#/components/parameters/LimitParameter"
     post:
       tags:
         - report-phishing
@@ -1317,8 +1295,6 @@ paths:
       summary: "Get the most recent group of cryptocurrency entries"
       parameters:
         - $ref: "#/components/parameters/PageParameter"
-        - $ref: "#/components/parameters/PerPageParameter"
-        - $ref: "#/components/parameters/LimitParameter"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -1437,8 +1413,6 @@ paths:
   /cryptocurrency-addresses/search:
     parameters:
       - $ref: "#/components/parameters/PageParameter"
-      - $ref: "#/components/parameters/PerPageParameter"
-      - $ref: "#/components/parameters/LimitParameter"
     post:
       tags:
         - cryptocurrency-addresses
@@ -1768,8 +1742,6 @@ paths:
   /malicious-sms:
     parameters:
       - $ref: "#/components/parameters/PageParameter"
-      - $ref: "#/components/parameters/PerPageParameter"
-      - $ref: "#/components/parameters/LimitParameter"
     get:
       tags:
         - malicious-sms
@@ -1889,9 +1861,7 @@ paths:
 
   /malicious-sms/search:
     parameters:
-      - $ref: "#/components/parameters/PerPageParameter"
       - $ref: "#/components/parameters/PageParameter"
-      - $ref: "#/components/parameters/LimitParameter"
     post:
       tags:
         - malicious-sms
