@@ -10,4 +10,7 @@ This is a manually-generated list of changes to the API spec.
                       The malicious_ip examples didn't show the returning of the IP address. The phish examples were just wrong. And the github swagger processer decided it now needs a space character in ONE of the examples. :(
 1.0.5   02/05/2024  - Fixed a duplicate operationId and changed the ResponseBodies to just schemas. 
                       Various validators don't like responseBodies; successful validation in one fails in another. So they're gone.
-1.0.6   04/12/2024  - Made the search body parameters - filters, fields, and sorts - actually look like they act. Fixed a handful of spelling errors and removed extra not-actually-returned fields in a few examples.
+1.0.6   04/12/2024  - Made the search body parameters - filters, fields, and sorts - actually look like they act.
+                      Fixed a handful of spelling errors and removed extra not-actually-returned fields in a few examples.
+1.1     04/15/2024  - Added endpoints for the malicious_sms module. Also fixed
+                      some of the parameter fields.

@@ -1,11 +1,12 @@
 openapi: "3.0.3"
 info:
-  title: eCXv2 - API v1.0
-  version: "1.0.6"
+  title: eCXv2 - API v1.1
+  version: "1.1.0"
   
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
-    API software issues can be raised on the issues page at https://github.com/APWG/ecx-support.
+    API software issues can be raised on the issues page at https://github.com/APWG/ecx2-openapi-doc/issues or email support.
+    Version 1.1 added the malicious_sms endpoint.
   contact:
     name: eCX Support
     email: support@ecrimex.net
@@ -22,13 +23,14 @@ tags:
     description: Phishing Lure data
   - name: malicious-domain
     description: DNS names performing malicious activities
-  - name: malicious-ip
-    description: IP Addresses performing malicious activities
+  - name: malicious-sms
+    description: Malicious activities delievered via SMS or Text message.
   - name: cryptocurrency-addresses
     description: Bitcoin or other cureency wallet identifiers used in crimnal activity
   - name: report-phishing
     description: Real-time archive of the reportphishing@apwg.org email mailbox
-  
+  - name: malicious-ip
+    description: IP Addresses performing malicious activities 
 externalDocs:
   description: API Changelog Documentation
   url: https://github.com/APWG/ecx2-openapi-doc/blob/main/Changelog
@@ -48,7 +50,7 @@ paths:
       description: "Get a specific phish record using it's id. There are no filtering or fields options allowed"
       summary: Retrieve one phish record
       parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+        - $ref: "#/components/parameters/IdParameter"
       responses:
         '200':
           description: "Results are a series of data records in a wrapper"
@@ -90,7 +92,7 @@ paths:
       operationId: PutPhish
       summary: "Update the confidence value or status of a phish record"
       parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+        - $ref: "#/components/parameters/IdParameter"
       requestBody:
         description: The URL field cannot be updated with this operation.
         required: true
@@ -125,9 +127,7 @@ paths:
         - phish
       operationId: GetPhish
       description: "Get upto 10,000 of the latest phish when no id parameter is used"
-      summary: Retrieve lots of phish records
-      parameters:
-        - $ref: "#/components/parameters/PageParameters"
+      summary: Retrieve lots of phish records     
       responses:
         '200':
           description: "Results are a series of these records inside a CommonRespBody wrapper"
@@ -228,7 +228,7 @@ paths:
       operationId: SearchPhish
       summary: "Search phish records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameter"
       requestBody:
         required: true
         content:
@@ -334,7 +334,7 @@ paths:
   # Malicious-IP module operations that use url parameters
   /malicious-ip/{id}:
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
     get:
       tags:
         - malicious-ip
@@ -415,8 +415,6 @@ paths:
       operationId: GetMalIP
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retrieve the latest malicious-ip records."
-      parameters:
-        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -510,7 +508,7 @@ paths:
       operationId: SearchMalIp
       summary: "Search malicious-ip records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameter"
       requestBody:
         required: true
         content:
@@ -606,7 +604,7 @@ paths:
   # Malicious-domain operations that use url parameters
   /malicious-domain/{id}:
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
     get:
       tags:
         - malicious-domain
@@ -687,8 +685,6 @@ paths:
       operationId: GetMalDomain
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retreive many records"
-      parameters:
-        - $ref: "#/components/parameters/PageParameters"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -780,7 +776,7 @@ paths:
       operationId: SearchMalDomain
       summary: "Search malicious-domain records using one of more conditions."
       parameters:
-        - $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameter"
       requestBody:
         required: true
         content:
@@ -877,7 +873,7 @@ paths:
 
   /malicious-domain/{id}/notes:
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
       - $ref: "#/components/parameters/NotesParameters"
     post:
       tags:
@@ -931,7 +927,7 @@ paths:
 
   /malicious-domain/{id}/notes/{noteId}: 
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
       - $ref: "#/components/parameters/NotesParameters"
     get:
       tags:
@@ -990,7 +986,7 @@ paths:
       description: "Get a specific report-phishing email record using it's record_id"
       summary: "A short summary"
       parameters:
-        - $ref: "#/components/parameters/CommonParameters"
+        - $ref: "#/components/parameters/IdParameter"
       responses:
         '200':
           description: "Results are a series of these records"
@@ -1033,6 +1029,8 @@ paths:
 
   # reportphisihng operations that don't use an id parameter.
   /report-phishing: 
+    parameters:
+      - $ref: "#/components/parameters/PageParameter"
     get:
       tags:
         - report-phishing
@@ -1040,7 +1038,7 @@ paths:
       description: "Get upto 10,000 of the latest entries with no id parameter"
       summary: "Retreive many records"
       parameters:
-        - $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameter"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -1080,13 +1078,13 @@ paths:
         - api_key: []
 
   /report-phishing/search:
-   post:
+    parameters:
+      - $ref: "#/components/parameters/PageParameter"
+    post:
       tags:
         - report-phishing
       operationId: SearchReportPhish
       summary: "Search report-phishing records using one of more conditions."
-      parameters:
-        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -1213,7 +1211,7 @@ paths:
   # Cryptocurrency-address operations that use url parameters
   /cryptocurrency-addresses/{id}:
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
     get:
       tags:
         - cryptocurrency-addresses
@@ -1288,6 +1286,7 @@ paths:
 
   # Cryptocurreny-addresses operations that don't use url parameters
   /cryptocurrency-addresses:
+
     get:
       tags:
         - cryptocurrency-addresses
@@ -1295,7 +1294,7 @@ paths:
       description: "Get upto 10,000 of the latest cryptocurrency records"
       summary: "Get the most recent group of cryptocurrency entries"
       parameters:
-        - $ref: "#/components/parameters/PageParameters"
+        - $ref: "#/components/parameters/PageParameter"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -1412,13 +1411,13 @@ paths:
         - api_key: []
 
   /cryptocurrency-addresses/search:
-   post:
+    parameters:
+      - $ref: "#/components/parameters/PageParameter"
+    post:
       tags:
         - cryptocurrency-addresses
       operationId: SearchCrypto
       summary: "Search cryptocurrency-addresses records using one of more conditions."
-      parameters:
-        - $ref: "#/components/parameters/PageParameters"
       requestBody:
         required: true
         content:
@@ -1545,7 +1544,7 @@ paths:
 
   /cryptocurrency-addresses/{id}/notes:
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
     post:
       tags:
         - cryptocurrency-addresses
@@ -1598,7 +1597,7 @@ paths:
 
   /cryptocurrency-addresses/{id}/notes/{noteId}: 
     parameters:
-      - $ref: "#/components/parameters/CommonParameters"
+      - $ref: "#/components/parameters/IdParameter"
       - $ref: "#/components/parameters/NotesParameters"
     get:
       tags:
@@ -1652,8 +1651,318 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorModel"
 
+### MALICIOUS-SMS PATHS ###
 
+  # Malicious-SMS module operations that use url parameters
+  /malicious-sms/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParameter"
+    get:
+      tags:
+        - malicious-sms
+      operationId: GetMalSMSId
+      description: "Get a specific malicious-sms record using it's id"
+      summary: "Retrieve one malicious-sms record"
+      responses:
+        '200':
+          description: "Results are these fields"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/MalIPRespBody"
+              example:
+                  {
+                    "id": 208961560,
+                    "brand": null,
+                    "status": null,
+                    "uri": "IRS",
+                    "confidence": 0,
+                    "landingTelephoneNumber": "1300400500",
+                    "cPNIReportedNumber": null,
+                    "callerIdDisplayedNumber": "1300400500",
+                    "carrier": "T-Mobile",
+                    "contentType": null,
+                    "contentAsText": "This is a test #5",
+                    "images": [
+                      "https://sandbox.ecx2.ecrimex.net/api/v1/malicious-sms/image/676e2c4f-88d7-455d-986b-c3f391e560b7"
+                    ],
+                    "questions": [],
+                    "discoveredAt": 1109010743,
+                    "updatedAt": 1713389259,
+                    "createdAt": 1713389259,
+                    "metadata": {
+                      "submissionCount": 1
+                    }
+                  }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+      security: 
+        - api_key: []
+
+    put:
+      tags:
+        - malicious-sms
+      operationId: PutMalSMS
+      summary: "Update the confidence value or status of a malicious-sms record"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:   
+              anyOf:
+                - $ref: "#/components/schemas/ip"
+                - $ref: "#/components/schemas/brand"
+                - $ref: "#/components/schemas/carrier"
+                - $ref: "#/components/schemas/status"
+                - $ref: "#/components/schemas/confidence"
+            example:
+              {
+                "ip": "10.2.4.8",
+                "brand": "ICANT",
+                "confidence": 100,
+                "status": "active"
+              }
+      responses:
+        "204":
+          description: "Only Status returned"
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+      security: 
+        - api_key: []
+
+  # Malicious-sms operations that don't use url parameters
+  /malicious-sms:
+    parameters:
+      - $ref: "#/components/parameters/PageParameter"
+    get:
+      tags:
+        - malicious-sms
+      operationId: GetMalSMS
+      description: "Get upto 10,000 of the latest entries with no id parameter"
+      summary: "Retrieve the latest malicious-sms records."
+      responses:
+        '200':
+          description: "Results are a series of these records within a CommonRespBody"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MalIPRespBody"
+              example:
+               # The data looks like this:
+               {
+                "id": 208961560,
+                "brand": null,
+                "status": null,
+                "uri": "IRS",
+                "confidence": 0,
+                "landingTelephoneNumber": "1300400500",
+                "cPNIReportedNumber": null,
+                "callerIdDisplayedNumber": "1300400500",
+                "carrier": "T-Mobile",
+                "contentType": null,
+                "contentAsText": "This is a test #5",
+                "images": [
+                  "https://sandbox.ecx2.ecrimex.net/api/v1/malicious-sms/image/676e2c4f-88d7-455d-986b-c3f391e560b7"
+                ],
+                "questions": [],
+                "discoveredAt": 1109010743,
+                "updatedAt": 1713389259,
+                "createdAt": 1713389259,
+                "metadata": {
+                  "submissionCount": 1
+                }
+               }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+      security: 
+        - api_key: []
+
+    post:
+      tags:
+        - malicious-sms
+      operationId: PostMalSMS
+      summary: "Submit a SMS record."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [carrier,confidence,discoveredAt,callerIdDisplayedNumber]
+              properties:
+                brand:
+                  type: string
+                  description: The phished brandname
+                discoveredAt:
+                  $ref: "#/components/schemas/discoveredAt"
+                status:
+                  $ref: "#/components/schemas/status"
+                confidence:
+                  $ref: "#/components/schemas/confidence"
+                ip: 
+                  $ref: "#/components/schemas/arrayOfStrings"
+                asn: 
+                  $ref: "#/components/schemas/arrayOfIntegers"
+                landingTelephoneNumber: 
+                  $ref: "#/components/schemas/landingTelephoneNumber"
+                cPNIReportedNumber: 
+                  $ref: "#/components/schemas/cPNIReportedNumber"
+                callerIdDisplayedNumber: 
+                  $ref: "#/components/schemas/callerIdDisplayedNumber"
+                carrier: 
+                  $ref: "#/components/schemas/carrier"
+                contentType:
+                  $ref: "#/components/schemas/contentType"
+                contentAsText:
+                  $ref: "#/components/schemas/contentAsText"
+                images: 
+                  $ref: "#/components/schemas/images"
+                twoWaySmsNumber:
+                  $ref: "#/components/schemas/twoWaySmsNumber"
+                callbackNumber:
+                  $ref: "#/components/schemas/callbackNumber"
+            example:
+              {
+              "ip": "10.1.3.6",
+              "confidence": 90,
+              "discoveredAt": 1702427976,
+              "description": "deploying malware disguised as email to members",
+              "status": "active"
+              }
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                { 
+                  "id": 108584304
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+      security: 
+        - api_key: []
+
+  /malicious-sms/search:
+    parameters:
+      - $ref: "#/components/parameters/PageParameter"
+    post:
+      tags:
+        - malicious-sms
+      operationId: SearchMalSMS
+      summary: "Search malicious-sms records using one of more conditions."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - type: object
+                  properties:
+                    filters:
+                      anyOf:
+                        - allOf: 
+                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/brand"
+                          - $ref: "#/components/schemas/url"
+                          - $ref: "#/components/schemas/carrier"
+                          - $ref: "#/components/schemas/callerIdDisplayedNumber"
+                          - $ref: "#/components/schemas/cPNIReportedNumber"
+                          - $ref: "#/components/schemas/landingTelephoneNumber"
+                - type: object
+                  description: An array of field names.
+                  properties:
+                    fields:
+                      anyOf:
+                        - type: string
+                          enum: [id, brand, description, ip, asn,
+                                discoveredAt, status, confidence,
+                                createdAt, updatedAt]
+                - type: object
+                  description: specify optional sorting options as [{"field":"asc|desc"}]
+                  properties:
+                    sorts:
+                      anyOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              enum: [asc,desc]
+                            brand:
+                              type: string
+                              enum: [asc,desc] 
+                            discoveredAT: 
+                              type: string
+                              enum: [asc,desc]
+                            carrier:
+                              type: string
+                              enum: [asc,desc]
+                            status:
+                              type: string
+                              enum: [asc,desc]
+                            confidence:
+                              type: string
+                              enum: [asc,desc]                            
+                            createdAt: 
+                              type: string
+                              enum: [asc,desc]                            
+                            updatedAt:
+                              type: string
+                              enum: [asc,desc]                            
+                - $ref: "#/components/schemas/limit"
+            example:
+              {
+                "filters": {"id": {"from": 21970198, "to": 21970199 } },
+                "fields": ["brand","status","id"]
+              }
+      responses:
+        "200":
+          description: ""
+          content:
+            'application/json':
+              example:
+                { 
+                  "data": [
+                    {
+                      "id": 21970199,
+                      "brand": "APWG",
+                      "status": "active"
+                    },
+                    {
+                      "id": 21970198,
+                      "brand": "ICANN",
+                      "status": "active"
+                    }
+                  ],
+                }
+        default:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+      security: 
+        - api_key: []
+
+###########################
 ### REUSABLE COMPONENTS ###
+###########################
 
 components:
   schemas:
@@ -1790,12 +2099,19 @@ components:
       items:
         type: string
     asn:
-        type: array
-        items:
-          type: string
-    brand:
-        description: "The Brand Name used in the phish"
+      type: array
+      items:
         type: string
+    brand:
+      description: "The Brand Name used in the phish"
+      type: string
+    callbackNumber:
+      type: string
+      description: The number you reply to
+    callerIdDisplayedNumber:
+      type: string
+    carrier:
+      type: string
     classification-maldomain:
       description: "The activity detected"
       type: string
@@ -1804,6 +2120,12 @@ components:
       description: "An indicator of how confident the submittor that this is a real phish. Possible values:\n0 - Entry is a false positive;  50 - Entry looks bad or suspicious but not verified;  90 - Our magic AI script found thi;  100 - Verfied entry;"
       type: integer
       enum: [0,50,90,100]
+    contentAsText:
+      type: string
+    contentType:
+      type: string
+    cPNIReportedNumber:
+      type: string
     createdAt:
       description: "When this phish object was created"
       type: integer
@@ -1875,10 +2197,17 @@ components:
     email: 
       type: string
       description: The source meail address, if activity came via email
+    images:
+      type: array
+      items:
+        type: string
+      description: An array of URIs where the images are stored.      
     ip: 
       type: array
       items:
         type: string
+    landingTelephoneNumber:
+      type: string
     metadata:
       type: object
       properties:
@@ -1916,6 +2245,9 @@ components:
       description: "Indicates whether the phish page is still accessible."
     tld:
       type: string
+    twoWaySmsNumber:
+      type: string
+      description: "This is really a phone/SMS number that may have special characters in it."
     updatedAt:
       type: integer
       format: epoch
@@ -2084,10 +2416,10 @@ components:
             - createdAt
             - updatedAt
 
-### MALICIOUS-IP SCHEMAS 
+### malicious-sms SCHEMAS 
                    
     MalIPRespBody:
-      description: "A malicious-ip response data"
+      description: "A malicious-sms response data"
       type: object
       anyOf:
         - $ref: "#/components/schemas/id"                 
@@ -2243,21 +2575,37 @@ components:
 ### COMMON PARAMETERS
   
   parameters:
-    CommonParameters:
-        name: id
-        in: path
-        description: The id of the record.
-        required: true
-        schema:
-          type: integer
+    IdParameter:
+      name: id
+      in: path
+      description: The id of the record.
+      required: true
+      schema:
+        type: integer
 
-    PageParameters:
-        name: page
-        in: query
-        description:  "In pagenated searches, the page number of results to return."
-        required: false
-        schema:
-          type: integer
+    PageParameter:
+      name: page
+      in: query
+      description:  "In pagenated searches, the page number of results to return."
+      required: false
+      schema:
+        type: integer
+
+    PerPageParameter:
+      name: per_page
+      in: query
+      description:  "In pagenated searches, the page number of results to return."
+      required: false
+      schema:
+        type: integer
+
+    LimitParameter:
+      name: limit
+      in: query
+      description:  "In searches, the number of results to return."
+      required: false
+      schema:
+        type: integer
 
     NotesParameters:
       name: noteId
