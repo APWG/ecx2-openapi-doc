@@ -352,9 +352,9 @@ paths:
                     { 
                     "id": 128682205,
                     "discoveredAt": 1687367508,
-                    "brand": "IANA",
                     "ip": "10.2.3.4",
                     "confidence": 100,
+                    "brand": "Silly",
                     "description": "IP: 10.2.3.4 exploited for large-scale scanning attacks",
                     "updatedAt": 1688011179,
                     "status": "active",
@@ -362,7 +362,8 @@ paths:
                     "metadata": {
                       "submissionCount": 1
                     },
-                    "asn": [1]
+                    "asn": [1],
+                    "port": [81]
                     }
         default:
           description: ""
@@ -427,7 +428,7 @@ paths:
                 { 
                 "id": "392807",
                 "confidence": 100,
-                "brand": "PayPal",
+                "brand": "PayPay",
                 "metadata": {
                   "submissionCount": 1
                 },
@@ -439,6 +440,7 @@ paths:
                 "updatedAt": 1701821108,
                 "asn": [65556],
                 "status": "active",
+                "port": 8080
                 }
         default:
           description: ""
@@ -475,6 +477,8 @@ paths:
                   $ref: "#/components/schemas/arrayOfStrings"
                 asn: 
                   $ref: "#/components/schemas/arrayOfIntegers"
+                port:
+                  $ref: "#/components/schemas/port"
             example:
               {
               "ip": "10.1.3.6",
@@ -2136,7 +2140,7 @@ components:
     crimeCategory:
       description: ""
       type: string
-      enum: [blackmail,crypto generator darknet market,extortion,illicit account,ransomware,scam,tumbler,other]
+      enum: [blackmail,crypto generator darknet market,extortion,illicit account,ransomware,scam,tumbler,CSAM,other]
     crypto-source:
       description: "Where the data was found"
       type: string
@@ -2222,6 +2226,8 @@ components:
           type: string
         id: 
           type: integer
+    port:
+      type: integer
     price:
       type: integer
       description: The approximate cost of this activity
