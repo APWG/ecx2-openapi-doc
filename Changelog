@@ -14,3 +14,4 @@ This is a manually-generated list of changes to the API spec.
                       Fixed a handful of spelling errors and removed extra not-actually-returned fields in a few examples.
 1.1     04/15/2024  - Added endpoints for the malicious_sms module. Also fixed
                       some of the parameter fields.
+1.1.1   03/05/2026  - Added a new classification 'preemptive' to malicious-domain. (Minor change.)

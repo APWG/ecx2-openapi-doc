@@ -1,4 +1,4 @@
-openapi: "3.0.3"
+openapi: "3.1.0"
 info:
   title: eCXv2 - API v1.1
   version: "1.1.0"
@@ -24,9 +24,9 @@ tags:
   - name: malicious-domain
     description: DNS names performing malicious activities
   - name: malicious-sms
-    description: Malicious activities delievered via SMS or Text message.
+    description: Malicious activities delivered via SMS or Text message.
   - name: cryptocurrency-addresses
-    description: Bitcoin or other cureency wallet identifiers used in crimnal activity
+    description: Bitcoin or other currency wallet identifiers used in criminal activity
   - name: report-phishing
     description: Real-time archive of the reportphishing@apwg.org email mailbox
   - name: malicious-ip
@@ -126,7 +126,7 @@ paths:
       tags:
         - phish
       operationId: GetPhish
-      description: "Get upto 10,000 of the latest phish when no id parameter is used"
+      description: "Get up to 10,000 of the latest phish when no id parameter is used"
       summary: Retrieve lots of phish records     
       responses:
         '200':
@@ -240,7 +240,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - type: object
                             properties:
                               url:
@@ -255,7 +255,7 @@ paths:
                     fields:
                       anyOf:
                         - type: string
-                          enum: [id, brand, url, brand,
+                          enum: [id, brand, url,
                                 discoveredAt, status, confidence,
                                 createdAt, updatedAt]
                 - type: object
@@ -524,7 +524,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - $ref: "#/components/schemas/ip"
                           - $ref: "#/components/schemas/brand"
                           - $ref: "#/components/schemas/asn"
@@ -688,7 +688,7 @@ paths:
         - malicious-domain
       operationId: GetMalDomain
       description: "Get upto 10,000 of the latest entries with no id parameter"
-      summary: "Retreive many records"
+      summary: "Retrieve many records"
       responses:
         '200':
           description: "Results are a series of these records within a CommonRespBody"
@@ -792,7 +792,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - type: object
                             properties:
                               domain:
@@ -1002,7 +1002,7 @@ paths:
                 {
                   "id": 19492278,
                   "sourceIp": "",
-                  "emailSubject": "PHISING SITES",
+                  "emailSubject": "PHISHING SITES",
                   "recipientEmail": "reportphishing@apwg.org",
                   "senderEmail": "eCrime Support <support@ecrimex.net>",
                   "emailHeaders": "Return-Path: <support@ecrimex.net>\nDelivered-To: feed10@apwgmta.apwg.net\nAuthentication-Results: mail.apwg.org;\n\tdkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 ",
@@ -1031,7 +1031,7 @@ paths:
       security: 
         - api_key: []
 
-  # reportphisihng operations that don't use an id parameter.
+  # reportphishing operations that don't use an id parameter.
   /report-phishing: 
     parameters:
       - $ref: "#/components/parameters/PageParameter"
@@ -1040,7 +1040,7 @@ paths:
         - report-phishing
       operationId: GetReportPhishing
       description: "Get upto 10,000 of the latest entries with no id parameter"
-      summary: "Retreive many records"
+      summary: "Retrieve many records"
       parameters:
         - $ref: "#/components/parameters/PageParameter"
       responses:
@@ -1100,7 +1100,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - type: object
                             properties: 
                               emailSubject:
@@ -1357,7 +1357,7 @@ paths:
                 discoveredAt:
                   $ref: "#/components/schemas/discoveredAt"
                 address:
-                  $ref: '#/components/schemas/address' 
+                  $ref: "#/components/schemas/address"
                   description: The wallet id or other identifying value
                 crimeCategory: 
                   $ref: "#/components/schemas/crimeCategory"
@@ -1370,13 +1370,13 @@ paths:
                   description: The approximate cost of this activity
                 email: 
                   type: string
-                  description: The source meail address, if activity came via email
+                  description: The source email address, if activity came via email
                 procedure: 
                   type: string
                   enum:
-                  - title:  "manual"
+                  - title: "manual"
                     description: "A human found this activity."
-                  - tile: "automatic"
+                  - title: "automatic"
                     description: "A script or bot found this activity."
                 actorCategory: 
                   $ref: '#/components/schemas/actorCategory'
@@ -1388,7 +1388,7 @@ paths:
                 "source": "email",
                 "discoveredAt": 1702486863,
                 "address": "19U1xBf2UZeLfPkVh1Gu3WGHheYCzjsVxs",
-                "crimeCategory": "extprtion",
+                "crimeCategory": "extortion",
                 "price": 1390,
                 "email": "forged",
                 "confidence": 100,
@@ -1433,7 +1433,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - $ref: '#/components/schemas/actorCategory'
                           - $ref: "#/components/schemas/address"
                           - $ref: "#/components/schemas/confidence"
@@ -1882,7 +1882,7 @@ paths:
                     filters:
                       anyOf:
                         - allOf: 
-                          - $ref: "#components/schemas/CommonFilters"
+                          - $ref: "#/components/schemas/CommonFilters"
                           - $ref: "#/components/schemas/brand"
                           - $ref: "#/components/schemas/url"
                           - $ref: "#/components/schemas/carrier"
@@ -2119,9 +2119,9 @@ components:
     classification-maldomain:
       description: "The activity detected"
       type: string
-      enum: [botnet C&C,scam,fake store,malicious,malware,other,storefront]
+      enum: [botnet C&C,scam,fake store,malicious,malware,other,storefront,preemptive]
     confidence:
-      description: "An indicator of how confident the submittor that this is a real phish. Possible values:\n0 - Entry is a false positive;  50 - Entry looks bad or suspicious but not verified;  90 - Our magic AI script found thi;  100 - Verfied entry;"
+      description: "An indicator of how confident the submitter that this is a real phish. Possible values:\n0 - Entry is a false positive;  50 - Entry looks bad or suspicious but not verified;  90 - Our magic AI script found thi;  100 - Verified entry;"
       type: integer
       enum: [0,50,90,100]
     contentAsText:
@@ -2191,16 +2191,20 @@ components:
         from:
           type: integer
           format: int32
-          example: 1702353706
+          examples: [
+            example: 1702353706
+          ]
         to:
           type: integer
           format: int32
-          example: 1705954969
+          examples: [
+            example: 1705954969
+          ]
     domain:
       type: string
     email: 
       type: string
-      description: The source meail address, if activity came via email
+      description: The source email address, if activity came via email
     images:
       type: array
       items:
@@ -2363,7 +2367,7 @@ components:
         status:
           type: string
           enum: [active,inactive]
-          example: active  
+          examples: [active,inactive]  
 
 
 ### PHISH MODULE SCHEMAS ###
@@ -2562,7 +2566,7 @@ components:
 #    A. POST <module-name>/<id>/notes to create a new note.
 #    B. GET <module-name>/<id>/notes to list all the notes for a data record.
 #    C. GET <module-name>/<id>/notes/<note-id> to retrieve a specific note.
-#    D. PUT <module-name/<id>/notes/<note-id> to upfate the data in a note.
+#    D. PUT <module-name/<id>/notes/<note-id> to update the data in a note.
 
     NotesReqBody:
         description: "Create a new note for a data record."
@@ -2571,10 +2575,10 @@ components:
           description:
             type: string
             description: "Any additional information."
-        example: 
-          { 
+        examples: 
+          [ 
           "description": "Oh, this is a bad event."
-          }
+          ]
 
  
 
@@ -2592,7 +2596,7 @@ components:
     PageParameter:
       name: page
       in: query
-      description:  "In pagenated searches, the page number of results to return."
+      description:  "In paginated searches, the page number of results to return."
       required: false
       schema:
         type: integer
@@ -2600,7 +2604,7 @@ components:
     PerPageParameter:
       name: per_page
       in: query
-      description:  "In pagenated searches, the page number of results to return."
+      description:  "In paginated searches, the page number of results to return."
       required: false
       schema:
         type: integer
