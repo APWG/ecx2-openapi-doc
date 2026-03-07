@@ -1,7 +1,7 @@
 openapi: "3.1.0"
 info:
   title: eCXv2 - API v1.1
-  version: "1.1.0"
+  version: "1.1.1"
   
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
@@ -1019,7 +1019,8 @@ paths:
                   "updatedAt": 1702102201,
                   "metadata": {
                     "submissionCount": 1
-                  }
+                  },
+                  "confidence": 90
                 }
         
         default:
@@ -1068,6 +1069,7 @@ paths:
                   "receivedAt": 1702102144,
                   "createdAt": 1702102201,
                   "updatedAt": 1702102201,
+                  "confidence": 100,
                   "metadata": {
                     "submissionCount": 1
                   }
@@ -1161,7 +1163,10 @@ paths:
                               enum: [asc,desc]                            
                             updatedAt:
                               type: string
-                              enum: [asc,desc]                            
+                              enum: [asc,desc] 
+                            confidence:
+                              type: string
+                              enum: [asc,desc]                                            
                 - $ref: "#/components/schemas/limit"
             example:
                   {
@@ -1197,6 +1202,7 @@ paths:
                   "receivedAt": 1702102144,
                   "createdAt": 1702102201,
                   "updatedAt": 1702102201,
+                  "confidence": 50,
                   "metadata": {
                     "submissionCount": 1
                   }

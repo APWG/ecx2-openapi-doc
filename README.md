@@ -21,6 +21,7 @@ Or, browse to https://apwg.github.io/ecx2-openapi-doc/#/
 
 
 ## API Versions
-The current version is:  **1.0**
-The historical list of eCX API versions:
-- 1.0 December 2023 - Initial document.
+The current API version is:  **1.0.x**.  It tracks changes in this document.
+
+The current OpenAPI/Swagger document versions are listed in the Changelog file.
+
