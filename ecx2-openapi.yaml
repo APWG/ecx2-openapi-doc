@@ -1,7 +1,7 @@
 openapi: "3.1.0"
 info:
   title: eCXv2 - API v1.1
-  version: "1.1.1"
+  version: "1.1.2"
   
   description: |-
     The definitions for the APWG eCrime eXchange data clearinghouse. API Documentation errors or issues should be directed to the issues page at https://github.com/APWG/ecx2-openapi-doc. 
@@ -634,7 +634,9 @@ paths:
                 "updatedAt": "1702146122",
                 "metadata": {
                   "submissionCount": 1
-                }
+                },
+                "lastScanAt": "1702146122",
+                "scanResult": "DNS timeout"
                 }
         default:
           description: ""
@@ -661,6 +663,9 @@ paths:
                 - $ref: "#/components/schemas/status"
                 - $ref: "#/components/schemas/confidence"
                 - $ref: "#/components/schemas/classification-maldomain"
+                - $ref: "#/components/schemas/lastScanAt"
+                - $ref: "#/components/schemas/scanResult"
+            
             example:
                 {
                   "classification": "scam",
@@ -710,7 +715,9 @@ paths:
                   "notes": [],
                   "metadata": {
                     "submissionCount": 1
-                  }
+                  },
+                  "lastScanAt": "1702146122",
+                  "scanResult": "DNS timeout"
                 }
         default:
           description: ""
@@ -747,6 +754,12 @@ paths:
                   $ref: "#/components/schemas/arrayOfStrings"
                 domain: 
                   $ref: "#/components/schemas/domain"
+                scanResult:
+                  type: string
+                lastScanAt:
+                  description: "The date of the last status scan"
+                  type: integer
+                  format: epoch
             example:
               {
                 "classification": "scam",
@@ -805,7 +818,7 @@ paths:
                         - type: string
                           enum: [id, domain, url, brand,
                                 discoveredAt, status, confidence,
-                                createdAt, updatedAt]
+                                createdAt, updatedAt, scanResult]
                 - type: object
                   description: specify optional sorting options as [{"field":"asc|desc"}]
                   properties:
@@ -819,7 +832,7 @@ paths:
                             domain:
                               type: string
                               enum: [asc,desc] 
-                            discoveredAT: 
+                            discoveredAt: 
                               type: string
                               enum: [asc,desc]
                             status:
@@ -833,7 +846,14 @@ paths:
                               enum: [asc,desc]                            
                             updatedAt:
                               type: string
-                              enum: [asc,desc]                            
+                              enum: [asc,desc]
+                            scanResult:
+                              type: string
+                              enum: [asc,desc]
+                            lastScanAt:    
+                              type: string
+                              enum: [asc,desc]   
+
                 - $ref: "#/components/schemas/limit" 
            
            
@@ -2125,7 +2145,7 @@ components:
     classification-maldomain:
       description: "The activity detected"
       type: string
-      enum: [botnet C&C,scam,fake store,malicious,malware,other,storefront,preemptive]
+      enum: [botnet C&C,scam,fake store,malicious,malware,other,storefront,preemptive,financial,gambling]
     confidence:
       description: "An indicator of how confident the submitter that this is a real phish. Possible values:\n0 - Entry is a false positive;  50 - Entry looks bad or suspicious but not verified;  90 - Our magic AI script found thi;  100 - Verified entry;"
       type: integer
@@ -2222,6 +2242,10 @@ components:
         type: string
     landingTelephoneNumber:
       type: string
+    lastScanAt:
+      description: "The date of the last status scan"
+      type: integer
+      format: epoch
     metadata:
       type: object
       properties:
@@ -2248,6 +2272,8 @@ components:
           description: "A human found this activity."
         - title: "automatic"
           description: "A script or bot found this activity."
+    scanResult:
+      type: string
     siteLink: 
       type: string
       description: Web address, if found on the web
@@ -2468,6 +2494,8 @@ components:
         - $ref: "#/components/schemas/tld"
         - $ref: "#/components/schemas/classification-maldomain"
         - $ref: "#/components/schemas/domain"
+        - $ref: "#/components/schemas/lastScanAt"
+        - $ref: "#/components/schemas/scanResult"
     
     MalDomainRespBody:
       description: "The response from a malicious-domain call."
@@ -2494,6 +2522,12 @@ components:
           properties:
             submission_count: 
               type: integer
+        lastScanAt:
+          $ref: "#/components/schemas/lastScanAt"
+        scanResult:
+          $ref: "#/components/schemas/scanResult"
+        
+        
 
     MalDomainUpdateBody:
       description: The fields to use for updating a malicious-domain record
@@ -2507,6 +2541,10 @@ components:
           $ref: "#/components/schemas/status"
         confidence:
           $ref: "#/components/schemas/confidence"
+        lastScanAt:
+          $ref: "#/components/schemas/lastScanAt"
+        scanResult:
+          $ref: "#/components/schemas/scanResult"
 
 ### REPORT-PHISHING SCHEMAS ###
 
